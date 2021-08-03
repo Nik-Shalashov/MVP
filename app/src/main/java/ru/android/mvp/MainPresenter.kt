@@ -1,6 +1,6 @@
 package ru.android.mvp
 
-class MainPresenter(val view: MainView) {
+class MainPresenter(private val view: MainView) {
     private val model = CountersModel()
 
     fun counter1Click() {
