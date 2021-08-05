@@ -1,7 +1,11 @@
 package ru.android.mvp
 
-interface MainView {
-    fun showCounter1 (counter: String)
-    fun showCounter2 (counter: String)
-    fun showCounter3 (counter: String)
+import moxy.MvpView
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.StateStrategyType
+
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface MainView: MvpView {
+    fun init()
+    fun updateList()
 }

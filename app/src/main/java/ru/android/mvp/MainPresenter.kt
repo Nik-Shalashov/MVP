@@ -1,16 +1,16 @@
 package ru.android.mvp
 
-class MainPresenter(private val view: MainView) {
-    private val model = CountersModel()
+import com.github.terrakok.cicerone.Router
+import moxy.MvpPresenter
 
-    fun counter1Click() {
-        val nextValue  = model.next(0)
-        view.showCounter1(nextValue.toString())
-    }fun counter2Click() {
-        val nextValue  = model.next(1)
-        view.showCounter2(nextValue.toString())
-    }fun counter3Click() {
-        val nextValue  = model.next(2)
-        view.showCounter3(nextValue.toString())
+class MainPresenter(private val router: Router, private val screens: Screens) : MvpPresenter<MainView>() {
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        router.replaceScreen(screens.users())
+    }
+
+    fun backClicked() {
+        router.exit()
     }
 }
