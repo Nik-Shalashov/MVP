@@ -1,11 +1,13 @@
-package ru.android.mvp
+package ru.android.mvp.views
 
-import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
+interface ItemView {
+    var pos: Int
+}
+
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface MainView: MvpView {
-    fun init()
-    fun updateList()
+interface UserItemView: ItemView {
+    fun setLogin(text: String)
 }
