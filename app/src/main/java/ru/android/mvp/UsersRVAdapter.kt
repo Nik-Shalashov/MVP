@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.android.mvp.databinding.ItemUserBinding
+import ru.android.mvp.presenters.UserListPresenter
+import ru.android.mvp.views.UserItemView
 
-class UsersRVAdapter(val presenter: UserListPresenter) :
+class UsersRVAdapter(private val presenter: UserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -23,7 +25,7 @@ class UsersRVAdapter(val presenter: UserListPresenter) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         presenter.bindView(holder.apply { pos = position })
 
-    inner class ViewHolder(val vb: ItemUserBinding) : RecyclerView.ViewHolder(vb.root),
+    inner class ViewHolder(private val vb: ItemUserBinding) : RecyclerView.ViewHolder(vb.root),
         UserItemView {
         override var pos = -1
 

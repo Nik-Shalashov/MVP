@@ -1,4 +1,4 @@
-package ru.android.mvp
+package ru.android.mvp.models
 
 class GithubUsersRepo {
     private val repositories = listOf(

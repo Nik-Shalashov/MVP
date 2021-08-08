@@ -4,22 +4,30 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.android.mvp.navigation.App.Navigation.router
+import ru.android.mvp.databinding.FragmentUsersListBinding
+import ru.android.mvp.models.GithubUsersRepo
+import ru.android.mvp.navigation.AndroidScreens
+import ru.android.mvp.navigation.BackButtonListener
+import ru.android.mvp.presenters.UsersPresenter
+import ru.android.mvp.views.UsersView
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
+
     companion object {
-        fun newInstance() = UsersFragment()
+        fun newInstance() = Fragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), App.instance.router) }
-    var adapter: UsersRVAdapter? = null
-
-    private var vb: FragmentUsersBinding? = null
+    private val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), router, AndroidScreens()) }
+    private var adapter: UsersRVAdapter? = null
+    private var vb: FragmentUsersListBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentUsersBinding.inflate(inflater, container, false).also {
+        FragmentUsersListBinding.inflate(inflater, container, false).also {
             vb = it
         }.root
 
@@ -39,5 +47,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         adapter?.notifyDataSetChanged()
     }
 
-    override fun backPressed() = presenter.backPressed()
+
+    override fun backButtonPressed(): Boolean {
+        presenter.backPressed()
+        return true
+    }
 }

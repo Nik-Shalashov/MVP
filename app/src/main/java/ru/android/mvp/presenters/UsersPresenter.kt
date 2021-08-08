@@ -1,9 +1,14 @@
-package ru.android.mvp
+package ru.android.mvp.presenters
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
+import ru.android.mvp.models.GithubUser
+import ru.android.mvp.models.GithubUsersRepo
+import ru.android.mvp.navigation.AndroidScreens
+import ru.android.mvp.views.UserItemView
+import ru.android.mvp.views.UsersView
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
+class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router: Router, private val screens: AndroidScreens) :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : UserListPresenter {
@@ -23,9 +28,8 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-
         usersListPresenter.itemClickListener = { itemView ->
-
+            router.navigateTo(screens.ghUser(itemView.pos))
         }
     }
 
