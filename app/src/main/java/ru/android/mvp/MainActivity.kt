@@ -15,7 +15,7 @@ import ru.android.mvp.views.MainView
 class MainActivity : MvpAppCompatActivity(), MainView{
 
     private val navigator = AppNavigator(this, R.id.container)
-    private val presenter by moxyPresenter { MainPresenter(router, AndroidScreens()) }
+    private val presenter by moxyPresenter { MainPresenter(router, AndroidScreens) }
     private var vb: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

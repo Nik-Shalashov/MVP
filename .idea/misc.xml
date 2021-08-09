@@ -3,13 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android_projects/MVP/app/src/main/res/layout-v23/item_user.xml" value="0.2971014492753623" />
+        <entry key="..\:/AP/MVP/app/src/main/res/layout/activity_main.xml" value="0.19722222222222222" />
+        <entry key="..\:/AP/MVP/app/src/main/res/layout/fragment_gh_user.xml" value="0.18425925925925926" />
+        <entry key="..\:/AP/MVP/app/src/main/res/layout/fragment_user.xml" value="0.18425925925925926" />
+        <entry key="..\:/AP/MVP/app/src/main/res/layout/fragment_users_list.xml" value="0.18425925925925926" />
+        <entry key="..\:/AP/MVP/app/src/main/res/layout/item_user.xml" value="0.2619047619047619" />
         <entry key="..\:/Android_projects/MVP/app/src/main/res/layout/activity_main.xml" value="0.13240740740740742" />
-        <entry key="..\:/Android_projects/MVP/app/src/main/res/layout/fragment_gh_user.xml" value="0.25" />
-        <entry key="..\:/Android_projects/MVP/app/src/main/res/layout/fragment_user.xml" value="0.29347826086956524" />
-        <entry key="..\:/Android_projects/MVP/app/src/main/res/layout/fragment_users_list.xml" value="0.20520833333333333" />
-        <entry key="..\:/Android_projects/MVP/app/src/main/res/layout/item_user.xml" value="0.2971014492753623" />
-        <entry key="..\:/Android_projects/MVP/app/src/main/res/layout/recycler_view.xml" value="0.29347826086956524" />
       </map>
     </option>
   </component>

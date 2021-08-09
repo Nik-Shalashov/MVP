@@ -35,6 +35,6 @@ class GhUserFragment(private val pos: Int) : MvpAppCompatFragment(), GhUserView 
     }
 
     companion object {
-        fun newInstance(pos: Int) = Fragment(pos)
+        fun newInstance(pos: Int) = GhUserFragment(pos)
     }
 }

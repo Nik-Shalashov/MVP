@@ -4,14 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.android.mvp.navigation.App.Navigation.router
 import ru.android.mvp.databinding.FragmentUsersListBinding
 import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.navigation.AndroidScreens
+import ru.android.mvp.navigation.App.Navigation.router
 import ru.android.mvp.navigation.BackButtonListener
 import ru.android.mvp.presenters.UsersPresenter
 import ru.android.mvp.views.UsersView
@@ -19,10 +18,10 @@ import ru.android.mvp.views.UsersView
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     companion object {
-        fun newInstance() = Fragment()
+        fun newInstance() = UsersFragment()
     }
 
-    private val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), router, AndroidScreens()) }
+    private val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), router, AndroidScreens) }
     private var adapter: UsersRVAdapter? = null
     private var vb: FragmentUsersListBinding? = null
 
@@ -45,6 +44,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     @SuppressLint("NotifyDataSetChanged")
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun backPressed() {
+        presenter.backPressed()
     }
 
 
