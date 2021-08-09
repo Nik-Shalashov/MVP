@@ -1,6 +1,8 @@
 package ru.android.mvp.presenters
 
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.android.mvp.models.GithubUser
 import ru.android.mvp.models.GithubUsersRepo
@@ -33,10 +35,28 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
         }
     }
 
+    private val repoObserver = object : Observer<GithubUser> {
+        var disposable: Disposable? = null
+
+        override fun onSubscribe(d: Disposable?) {
+            disposable = d
+        }
+
+        override fun onNext(t: GithubUser?) {
+            t?.let { usersListPresenter.users.add(it) }
+        }
+
+        override fun onError(e: Throwable?) {
+            println("onError: ${e?.message}")
+        }
+
+        override fun onComplete() {
+            viewState.updateList()
+        }
+    }
+
     private fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        usersRepo.fromIterable().subscribe(repoObserver)
     }
 
     fun backPressed(): Boolean {
