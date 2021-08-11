@@ -1,6 +1,6 @@
 package ru.android.mvp.models
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 class GithubUsersRepo {
     private val repositories = listOf(
@@ -11,11 +11,8 @@ class GithubUsersRepo {
         GithubUser("login5"),
     )
 
-    fun getUsers(): List<GithubUser> {
-        return repositories
+    fun getUsers(): Single<List<GithubUser>> {
+        return Single.just(repositories)
     }
 
-    fun fromIterable(): Observable<GithubUser> {
-        return Observable.fromIterable(repositories)
-    }
 }
