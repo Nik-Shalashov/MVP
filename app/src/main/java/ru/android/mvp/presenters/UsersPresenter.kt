@@ -1,7 +1,7 @@
 package ru.android.mvp.presenters
 
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.android.mvp.models.GithubUser
@@ -14,7 +14,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : UserListPresenter {
-        val users = mutableListOf<GithubUser>()
+        var users = mutableListOf<GithubUser>()
         override var itemClickListener: ((UserItemView) -> Unit)? = null
 
         override fun getCount() = users.size
@@ -35,28 +35,26 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
         }
     }
 
-    private val repoObserver = object : Observer<GithubUser> {
+    private val repoObserver = object : SingleObserver<List<GithubUser>> {
+
         var disposable: Disposable? = null
 
         override fun onSubscribe(d: Disposable?) {
             disposable = d
         }
 
-        override fun onNext(t: GithubUser?) {
-            t?.let { usersListPresenter.users.add(it) }
+        override fun onSuccess(t: List<GithubUser>?) {
+            usersListPresenter.users = t as MutableList<GithubUser>
+            viewState.updateList()
         }
 
         override fun onError(e: Throwable?) {
-            println("onError: ${e?.message}")
-        }
-
-        override fun onComplete() {
-            viewState.updateList()
+            disposable?.dispose()
         }
     }
 
     private fun loadData() {
-        usersRepo.fromIterable().subscribe(repoObserver)
+        usersRepo.getUsers().subscribe(repoObserver)
     }
 
     fun backPressed(): Boolean {
