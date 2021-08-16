@@ -3,4 +3,5 @@
     <string name="counter_1">Счётчик 1</string>
     <string name="counter_2">Счётчик 2</string>
     <string name="counter_3">Счётчик 3</string>
+    <string name="gh_user">GH User</string>
 </resources>
