@@ -12,4 +12,7 @@ class GithubUsersRepo {
     fun getUsers(): List<GithubUser> {
         return repositories
     }
+
+    fun getUserByLogin(userId: String): GithubUser? =
+        repositories.firstOrNull { user -> user.login == userId }
 }
