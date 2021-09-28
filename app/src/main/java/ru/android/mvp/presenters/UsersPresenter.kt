@@ -1,64 +1,65 @@
 package ru.android.mvp.presenters
 
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.core.SingleObserver
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 import ru.android.mvp.models.GithubUser
 import ru.android.mvp.models.GithubUsersRepo
-import ru.android.mvp.navigation.AndroidScreens
+import ru.android.mvp.navigation.UserScreen
+import ru.android.mvp.utils.schedulers.Schedulers
 import ru.android.mvp.views.UserItemView
 import ru.android.mvp.views.UsersView
 
-class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router: Router, private val screens: AndroidScreens) :
+class UsersPresenter(
+    private val repo: GithubUsersRepo,
+    private val router: Router,
+    private val uiScheduler: Schedulers
+) :
     MvpPresenter<UsersView>() {
+    private var users = mutableListOf<GithubUser>()
+    private var disposable = CompositeDisposable()
 
-    class UsersListPresenter : UserListPresenter {
-        var users = mutableListOf<GithubUser>()
-        override var itemClickListener: ((UserItemView) -> Unit)? = null
 
-        override fun getCount() = users.size
+    class UserListPresenter(private val router: Router) : UserItemListPresenter {
+        val user = mutableListOf<GithubUser>()
+        override var itemClickedListener: ((UserItemView) -> Unit)? = null
+
         override fun bindView(view: UserItemView) {
-            val user = users[view.pos]
-            view.setLogin(user.login)
+            val user = user[view.pos]
+            user.login?.let { view.setLogin(it) }
+            user.avatarUrl?.let { view.setAvatar(it) }
+
         }
+
+        override fun getCount(): Int = user.size
     }
 
-    val usersListPresenter = UsersListPresenter()
-
+    val userListPresenter = UserListPresenter(router)
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
         loadData()
-        usersListPresenter.itemClickListener = { itemView ->
-            router.navigateTo(screens.ghUser(itemView.pos))
-        }
-    }
-
-    private val repoObserver = object : SingleObserver<List<GithubUser>> {
-
-        var disposable: Disposable? = null
-
-        override fun onSubscribe(d: Disposable?) {
-            disposable = d
-        }
-
-        override fun onSuccess(t: List<GithubUser>?) {
-            usersListPresenter.users = t as MutableList<GithubUser>
-            viewState.updateList()
-        }
-
-        override fun onError(e: Throwable?) {
-            disposable?.dispose()
-        }
     }
 
     private fun loadData() {
-        usersRepo.getUsers().subscribe(repoObserver)
+        disposable += repo
+            .getUsers().observeOn(uiScheduler.main())
+            .subscribe(
+                {
+                    users.addAll(it)
+                    userListPresenter.user.addAll(users)
+                    viewState.updateUsersList()
+                },
+                viewState::showError
+            )
+        userListPresenter.itemClickedListener = { userItemView ->
+            router.navigateTo(UserScreen(users[userItemView.pos]).create())
+        }
     }
 
-    fun backPressed(): Boolean {
-        router.exit()
-        return true
+    override fun onDestroy() {
+        disposable.clear()
     }
+
 }

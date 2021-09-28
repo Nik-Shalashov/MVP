@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">MVP</string>
-    <string name="counter_1">Счётчик 1</string>
-    <string name="counter_2">Счётчик 2</string>
-    <string name="counter_3">Счётчик 3</string>
-    <string name="gh_user">GH User</string>
+    <string name="app_name">MVP_Bigin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
