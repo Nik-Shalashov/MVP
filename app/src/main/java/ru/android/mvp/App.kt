@@ -3,6 +3,7 @@ package ru.android.mvp
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import ru.android.mvp.models.storage.RoomDB
 
 class App : Application() {
     companion object Navigation {
@@ -12,5 +13,10 @@ class App : Application() {
         }
         val navigatorHolder = cicerone.getNavigatorHolder()
         val router = cicerone.router
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        RoomDB.create(this)
     }
 }

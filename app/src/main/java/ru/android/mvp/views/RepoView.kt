@@ -3,7 +3,7 @@ package ru.android.mvp.views
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
-import ru.android.mvp.models.GithubRepos
+import ru.android.mvp.models.retrofit.GithubRepos
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface RepoView : MvpView {

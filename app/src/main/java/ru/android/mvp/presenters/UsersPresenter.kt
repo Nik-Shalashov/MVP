@@ -4,7 +4,7 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
-import ru.android.mvp.models.GithubUser
+import ru.android.mvp.models.retrofit.GithubUser
 import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.navigation.UserScreen
 import ru.android.mvp.utils.schedulers.Schedulers

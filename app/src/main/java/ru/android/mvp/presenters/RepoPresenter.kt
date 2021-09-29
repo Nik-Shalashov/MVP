@@ -22,7 +22,12 @@ class RepoPresenter(
                     viewState.showRepoName(it)
                     viewState.showRepoForks(it)
                     viewState.showRepoDate(it)
-                },{}
+                },
+                viewState::showError
             )
+    }
+
+    override fun onDestroy() {
+        disposable.clear()
     }
 }

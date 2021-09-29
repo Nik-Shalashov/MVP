@@ -1,13 +1,14 @@
-package ru.android.mvp.models
+package ru.android.mvp.models.retrofit
 
 import io.reactivex.rxjava3.core.Single
+import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.models.api.ServiceApi
 import ru.android.mvp.utils.schedulers.Schedulers
 
 class RetrofitGithubUsersRepoImpl(
     private val api: ServiceApi,
     private val schedulers: Schedulers
-) : GithubUsersRepo {
+) : GithubUsersRepo, CloudSource {
     override fun getUsers(): Single<List<GithubUser>> =
         api.getUsers()
             .subscribeOn(schedulers.background())

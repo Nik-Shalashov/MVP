@@ -13,5 +13,4 @@ class MainPresenter(
         router.newRootScreen(UsersScreen.create())
     }
 
-    fun back() = router.exit()
 }

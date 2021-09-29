@@ -3,8 +3,8 @@ package ru.android.mvp.models.api
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Url
-import ru.android.mvp.models.GithubRepos
-import ru.android.mvp.models.GithubUser
+import ru.android.mvp.models.retrofit.GithubRepos
+import ru.android.mvp.models.retrofit.GithubUser
 
 interface ServiceApi {
     @GET("/users")

@@ -1,4 +1,4 @@
-package ru.android.mvp.models
+package ru.android.mvp.models.retrofit
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

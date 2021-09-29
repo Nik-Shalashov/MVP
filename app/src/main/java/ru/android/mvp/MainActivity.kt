@@ -10,12 +10,11 @@ import ru.android.mvp.App.Navigation.navigatorHolder
 import ru.android.mvp.App.Navigation.router
 import ru.android.mvp.databinding.ActivityMainBinding
 import ru.android.mvp.presenters.MainPresenter
-import ru.android.mvp.ui.BackButtonPressed
 import ru.android.mvp.views.MainView
 
 /**For creating an instance of moxyPresenter need to MainActivity instanced of MvpAppCompatActivity()**/
 class MainActivity : MvpAppCompatActivity(), MainView {
-    private val binding: ActivityMainBinding by viewBinding(CreateMethod.INFLATE)
+    private val binding : ActivityMainBinding by viewBinding(CreateMethod.INFLATE)
     private val navigator = AppNavigator(this, R.id.container)
     private val mainPresenter by moxyPresenter { MainPresenter(router) }
 
@@ -34,13 +33,5 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         super.onPause()
     }
 
-    override fun onBackPressed() {
-        supportFragmentManager.fragments.forEach {
-            if (it is BackButtonPressed && it.backButtonPressed()) {
-                return
-            }
-            mainPresenter.back()
-        }
-    }
 }
 

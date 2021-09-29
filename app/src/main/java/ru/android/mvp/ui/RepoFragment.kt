@@ -12,8 +12,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.android.mvp.databinding.FragmentRepoBinding
-import ru.android.mvp.models.GithubRepos
+import ru.android.mvp.models.retrofit.GithubRepos
 import ru.android.mvp.models.RepositoryFactory
+import ru.android.mvp.models.network.NetworkStatusFactory
 import ru.android.mvp.presenters.RepoPresenter
 import ru.android.mvp.utils.schedulers.SchedulersFactory
 import ru.android.mvp.views.RepoView
@@ -32,7 +33,7 @@ class RepoFragment : MvpAppCompatFragment(), RepoView {
     private val binding : FragmentRepoBinding by viewBinding(CreateMethod.INFLATE)
     private val presenter: RepoPresenter by moxyPresenter {
         RepoPresenter(
-            RepositoryFactory.create(),
+            RepositoryFactory.create(NetworkStatusFactory.create(context)),
             repoUrl,
             SchedulersFactory.create()
         )
@@ -57,7 +58,7 @@ class RepoFragment : MvpAppCompatFragment(), RepoView {
 
     @SuppressLint("SetTextI18n")
     override fun showRepoDate(repo: GithubRepos) {
-        binding.date.text = "Created at ${repo.date}"
+        binding.date.text = "Creted at ${repo.date}"
     }
 
     @SuppressLint("SetTextI18n")

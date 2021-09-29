@@ -14,8 +14,9 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.android.mvp.App.Navigation.router
 import ru.android.mvp.databinding.FragmentItemUserBinding
-import ru.android.mvp.models.GithubUser
+import ru.android.mvp.models.retrofit.GithubUser
 import ru.android.mvp.models.RepositoryFactory
+import ru.android.mvp.models.network.NetworkStatusFactory
 import ru.android.mvp.presenters.UserPresenter
 import ru.android.mvp.utils.ImageLoader
 import ru.android.mvp.utils.schedulers.SchedulersFactory
@@ -38,7 +39,7 @@ class UserFragment : MvpAppCompatFragment(), UserView {
     private val userPresenter by moxyPresenter {
         UserPresenter(
             user,
-            RepositoryFactory.create(),
+            RepositoryFactory.create(NetworkStatusFactory.create(context)),
             SchedulersFactory.create(),
             router
         )

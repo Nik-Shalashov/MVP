@@ -5,8 +5,8 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
-import ru.android.mvp.models.GithubRepos
-import ru.android.mvp.models.GithubUser
+import ru.android.mvp.models.retrofit.GithubRepos
+import ru.android.mvp.models.retrofit.GithubUser
 import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.models.Mapper
 import ru.android.mvp.navigation.RepoScreen
@@ -59,7 +59,7 @@ class UserPresenter(
         }
     }
 
-    class ReposPresenter : ItemListPresenter<RepoItemView>{
+    class ReposPresenter() : ItemListPresenter<RepoItemView>{
         val repos = mutableListOf<GithubRepos>()
 
         override fun bindView(view: RepoItemView) {
