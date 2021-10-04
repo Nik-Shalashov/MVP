@@ -54,12 +54,12 @@ class UserPresenter(
                 },
                 viewState::showError
             )
-        reposPresenter.itemClickedListener = {view ->
+        reposPresenter.itemClickedListener = { view ->
             router.navigateTo(RepoScreen(repos[view.pos]).create())
         }
     }
 
-    class ReposPresenter() : ItemListPresenter<RepoItemView>{
+    class ReposPresenter() : ItemListPresenter<RepoItemView> {
         val repos = mutableListOf<GithubRepos>()
 
         override fun bindView(view: RepoItemView) {
@@ -69,6 +69,7 @@ class UserPresenter(
             view.setDate(repo.date)
             Log.e("repos", repo.toString())
         }
+
         override fun getCount(): Int = repos.size
         override var itemClickedListener: ((RepoItemView) -> Unit)? = null
 

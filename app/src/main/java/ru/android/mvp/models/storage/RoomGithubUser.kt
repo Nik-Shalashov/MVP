@@ -1,6 +1,5 @@
 package ru.android.mvp.models.storage
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey

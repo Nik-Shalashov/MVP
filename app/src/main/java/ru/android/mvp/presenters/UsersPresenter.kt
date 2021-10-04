@@ -58,6 +58,7 @@ class UsersPresenter(
         }
     }
 
+
     override fun onDestroy() {
         disposable.clear()
     }

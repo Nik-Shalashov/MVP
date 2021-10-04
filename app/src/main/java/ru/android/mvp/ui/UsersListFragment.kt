@@ -9,27 +9,37 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
-import moxy.MvpAppCompatFragment
+import com.github.terrakok.cicerone.Router
 import moxy.ktx.moxyPresenter
-import ru.android.mvp.App.Navigation.router
 import ru.android.mvp.databinding.FragmentUsersListBinding
-import ru.android.mvp.models.RepositoryFactory
-import ru.android.mvp.models.network.NetworkStatusFactory
+import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.presenters.UsersPresenter
+import ru.android.mvp.ui.abs.AbsFragment
 import ru.android.mvp.utils.ImageLoader
-import ru.android.mvp.utils.schedulers.SchedulersFactory
+import ru.android.mvp.utils.schedulers.Schedulers
 import ru.android.mvp.views.UsersView
+import javax.inject.Inject
 
-
-class UsersListFragment : MvpAppCompatFragment(), UsersView {
+class UsersListFragment : AbsFragment(), UsersView {
     private val binding: FragmentUsersListBinding by viewBinding(CreateMethod.INFLATE)
-    private val imageLoader = ImageLoader
     private var adapter: UserListAdapter? = null
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var repo: GithubUsersRepo
+
+    @Inject
+    lateinit var schedulers: Schedulers
     private val userPresenter by moxyPresenter {
         UsersPresenter(
-            RepositoryFactory.create(NetworkStatusFactory.create(context)),
+            repo,
             router,
-            SchedulersFactory.create()
+            schedulers
         )
     }
 

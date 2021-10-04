@@ -1,20 +1,20 @@
 package ru.android.mvp.models.retrofit
 
 import io.reactivex.rxjava3.core.Single
-import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.models.api.ServiceApi
 import ru.android.mvp.utils.schedulers.Schedulers
+import javax.inject.Inject
 
-class RetrofitGithubUsersRepoImpl(
+class RetrofitGithubUsersRepoImpl @Inject constructor(
     private val api: ServiceApi,
     private val schedulers: Schedulers
-) : GithubUsersRepo, CloudSource {
+) : CloudSource {
     override fun getUsers(): Single<List<GithubUser>> =
         api.getUsers()
             .subscribeOn(schedulers.background())
 
 
-    override fun getRepos(url : String?): Single<List<GithubRepos>> =
+    override fun getRepos(url: String?): Single<List<GithubRepos>> =
         api.getRepos(url)
             .subscribeOn(schedulers.background())
 

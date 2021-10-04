@@ -1,27 +1,35 @@
-package ru.android.mvp
+package ru.android.mvp.ui
 
 import android.os.Bundle
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
-import ru.android.mvp.App.Navigation.navigatorHolder
-import ru.android.mvp.App.Navigation.router
+import ru.android.mvp.R
 import ru.android.mvp.databinding.ActivityMainBinding
 import ru.android.mvp.presenters.MainPresenter
+import ru.android.mvp.ui.abs.AbsActivity
 import ru.android.mvp.views.MainView
+import javax.inject.Inject
 
 /**For creating an instance of moxyPresenter need to MainActivity instanced of MvpAppCompatActivity()**/
-class MainActivity : MvpAppCompatActivity(), MainView {
-    private val binding : ActivityMainBinding by viewBinding(CreateMethod.INFLATE)
+class MainActivity : AbsActivity(R.layout.activity_main), MainView {
+    private val binding: ActivityMainBinding by viewBinding(CreateMethod.INFLATE)
     private val navigator = AppNavigator(this, R.id.container)
-    private val mainPresenter by moxyPresenter { MainPresenter(router) }
 
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
+    @Inject
+    lateinit var router: Router
+    private val presenter by moxyPresenter { MainPresenter(router) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        binding.root
     }
+
 
     override fun onResumeFragments() {
         super.onResumeFragments()
@@ -32,6 +40,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         navigatorHolder.removeNavigator()
         super.onPause()
     }
+
 
 }
 

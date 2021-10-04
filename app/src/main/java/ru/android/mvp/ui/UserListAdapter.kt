@@ -8,11 +8,18 @@ import ru.android.mvp.presenters.UserItemListPresenter
 import ru.android.mvp.utils.ImageLoader
 import ru.android.mvp.views.UserItemView
 
-class UserListAdapter(private val presenter: UserItemListPresenter, private val imageLoader: ImageLoader) :
+class UserListAdapter(
+    private val presenter: UserItemListPresenter,
+    private val imageLoader: ImageLoader
+) :
     RecyclerView.Adapter<UserListAdapter.UserItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserItemViewHolder =
-        UserItemViewHolder(ItemUserLayoutBinding.inflate(LayoutInflater.from(parent.context),
-            parent, false), imageLoader).apply {
+        UserItemViewHolder(
+            ItemUserLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent, false
+            ), imageLoader
+        ).apply {
             itemView.setOnClickListener {
                 presenter.itemClickedListener?.invoke(this)
             }
@@ -25,8 +32,11 @@ class UserListAdapter(private val presenter: UserItemListPresenter, private val 
 
     override fun getItemCount(): Int = presenter.getCount()
 
-    inner class UserItemViewHolder(private val binding: ItemUserLayoutBinding, private val imageLoader: ImageLoader) :
-        RecyclerView.ViewHolder(binding.root), UserItemView{
+    inner class UserItemViewHolder(
+        private val binding: ItemUserLayoutBinding,
+        private val imageLoader: ImageLoader
+    ) :
+        RecyclerView.ViewHolder(binding.root), UserItemView {
         override fun setLogin(login: String) {
             binding.userLogin.text = login
         }
@@ -34,6 +44,7 @@ class UserListAdapter(private val presenter: UserItemListPresenter, private val 
         override fun setAvatar(url: String) {
             imageLoader.load(url, binding.avatarImage)
         }
+
         override var pos = -1
     }
 }

@@ -1,14 +1,15 @@
 package ru.android.mvp.models.storage
 
 import androidx.room.*
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface RepoDAO {
     @Query("SELECT * FROM RoomGithubRepo WHERE userUrl = :reposUrl")
-    fun findForUserRepo(reposUrl: String?): List<RoomGithubRepo>
+    fun findForUserRepo(reposUrl: String?): Single<List<RoomGithubRepo>>
 
     @Query("SELECT * FROM RoomGithubRepo WHERE url = :url")
-    fun findRepo(url: String?): RoomGithubRepo
+    fun findRepo(url: String?): Single<RoomGithubRepo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(repo: RoomGithubRepo)
@@ -38,6 +39,6 @@ interface RepoDAO {
     fun delete(users: List<RoomGithubRepo>)
 
     @Query("SELECT * FROM RoomGithubRepo")
-    fun getAll(): List<RoomGithubRepo>
+    fun getAll(): Single<List<RoomGithubRepo>>
 
 }

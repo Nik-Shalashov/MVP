@@ -6,12 +6,13 @@ import moxy.MvpPresenter
 import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.utils.schedulers.Schedulers
 import ru.android.mvp.views.RepoView
+import javax.inject.Inject
 
-class RepoPresenter(
-    private val repo : GithubUsersRepo,
+class RepoPresenter @Inject constructor(
+    private val repo: GithubUsersRepo,
     private val repoUrl: String?,
     private val schedulers: Schedulers
-) : MvpPresenter<RepoView>(){
+) : MvpPresenter<RepoView>() {
     private val disposable = CompositeDisposable()
     override fun onFirstViewAttach() {
         disposable += repo

@@ -10,20 +10,20 @@ import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
-import moxy.MvpAppCompatFragment
+import com.github.terrakok.cicerone.Router
 import moxy.ktx.moxyPresenter
-import ru.android.mvp.App.Navigation.router
+import ru.android.mvp.R
 import ru.android.mvp.databinding.FragmentItemUserBinding
+import ru.android.mvp.models.GithubUsersRepo
 import ru.android.mvp.models.retrofit.GithubUser
-import ru.android.mvp.models.RepositoryFactory
-import ru.android.mvp.models.network.NetworkStatusFactory
 import ru.android.mvp.presenters.UserPresenter
+import ru.android.mvp.ui.abs.AbsFragment
 import ru.android.mvp.utils.ImageLoader
-import ru.android.mvp.utils.schedulers.SchedulersFactory
+import ru.android.mvp.utils.schedulers.Schedulers
 import ru.android.mvp.views.UserView
+import javax.inject.Inject
 
-
-class UserFragment : MvpAppCompatFragment(), UserView {
+class UserFragment : AbsFragment(R.layout.fragment_users_list), UserView {
     companion object {
         private const val ARGS_USER = "ARG_USER"
         fun newInstance(githubUserLogin: String?) = UserFragment().apply {
@@ -31,7 +31,17 @@ class UserFragment : MvpAppCompatFragment(), UserView {
         }
     }
 
-    private val imageLoader = ImageLoader
+    @Inject
+    lateinit var repository: GithubUsersRepo
+
+    @Inject
+    lateinit var schedulers: Schedulers
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var imageLoader: ImageLoader
     private val binding by viewBinding<FragmentItemUserBinding>(CreateMethod.INFLATE)
     private val user by lazy {
         arguments?.getString(ARGS_USER).orEmpty()
@@ -39,8 +49,8 @@ class UserFragment : MvpAppCompatFragment(), UserView {
     private val userPresenter by moxyPresenter {
         UserPresenter(
             user,
-            RepositoryFactory.create(NetworkStatusFactory.create(context)),
-            SchedulersFactory.create(),
+            repository,
+            schedulers,
             router
         )
     }
